@@ -3,15 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Settings;
+use App\Tickets;
+use App\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PagesController extends Controller
 {
 
     public function report(){
-        return view('pages.report');
+
+        $tickets = Tickets::paginate(15);
+        $users = User::all();
+
+        return view('pages.report', compact('tickets', 'users'));
     }
+
+    public function postReport(Request $request)
+    {
+        dd($request->all());
+
+
+            // return redirect::to('tickets');
+        // return view('pages.report', compact('tickets', 'users'));
+    }
+
+
+
+
 
     public function contact(){
         return view('pages.contact');

@@ -43,6 +43,7 @@ Route::group(['middleware' => ['role:admin']], function() {
 
 /*pages*/
 Route::get('/report', 'PagesController@report');
+Route::post('/report', 'PagesController@postReport');
 Route::get('/contact', 'PagesController@contact');
 Route::post('/contact', 'PagesController@contactMail');
 
