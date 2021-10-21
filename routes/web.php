@@ -1,3 +1,6 @@
+
+
+
 <?php
 
 /*
@@ -52,6 +55,15 @@ Route::post('tickets', 'TicketsController@store');
 Route::get('/ticket/{id}/{title}','TicketsController@ticketDetail');
 Route::get('/edit/tickets/{id}', 'TicketsController@editTickets');
 Route::get('/new/ticket', 'TicketsController@create');
+
+
+
+
+
+
+
+
+
 Route::post('/update/tickets/{id}','TicketsController@updateTickets');
 Route::post('/delete/tickets/{id}','TicketsController@deleteTickets');
 Route::post('/delete/replies/{id}','TicketsController@deleteReplies');

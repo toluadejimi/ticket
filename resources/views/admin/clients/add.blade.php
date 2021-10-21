@@ -19,17 +19,17 @@
 
                             {{Form::open(['url'=>'/admin/clients', 'method' =>'post',  'files' => true])}}
                             <div class="small-border"></div>
-                            <h1>Add Client</h1>
+                            <h1>Add Customer</h1>
                             <hr>
 
                             <div class="form-group">
-                                <label class="control-label">Name*:</label>
-                                <input type="text" class="form-control" name="name" value="{{ old('name') }}" required/>
+                                <label class="control-label">Customer Name*:</label>
+                                <input type="text" class="form-control" name="customer_name" value="{{ old('customer_name') }}" required/>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label">User Name*:</label>
-                                <input type="text" class="form-control" name="username" value="{{ old('username') }}" required/>
+                          <div class="form-group">
+                                <label class="control-label">Phone No*:</label>
+                                <input type="text" class="form-control" name="phone_no" value="{{ old('phone_no') }}" required/>
                             </div>
 
                             <div class="form-group">
@@ -37,17 +37,17 @@
                                 <input type="email" class="form-control" name="email" value="{{ old('email') }}" required/>
                             </div>
 
-                            <div class="form-group">
+                            {{--  <div class="form-group">
                                 <label class="control-label">Password*:</label>
                                 <input type="password" class="form-control" name="password"  required/>
-                            </div>
+                            </div>  --}}
 
-                            <div class="form-group">
+                            {{--  <div class="form-group">
                                 <label class="control-label">Avatar:</label>
                                 <div class="custom-file-upload">
                                     <input type="file" id="file" name="file"/>
                                 </div>
-                            </div>
+                            </div>  --}}
 
 
                             <div class="submit-button">

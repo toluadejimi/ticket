@@ -60,8 +60,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label">Designation*:</label>
-                                <input type="text" class="form-control" name="designation" value="{{ old('designation') }}" required/>
+                                <label class="control-label">Phone NO*:</label>
+                                <input type="text" class="form-control" name="phone_no" value="{{ old('phone_no') }}" required/>
                             </div>
 
                             <div class="submit-button">

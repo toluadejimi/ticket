@@ -13,6 +13,7 @@ use App\User;
 use App\Tickets;
 use App\Files;
 use App\Replies;
+use App\Customer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -25,8 +26,8 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        $users = User::Paginate(15);
-        return view('admin.clients.index',compact('users'));
+        $customers = Customer::Paginate(15);
+        return view('admin.clients.index',compact('customers'));
     }
 
     /**
@@ -41,25 +42,20 @@ class ClientsController extends Controller
      */
     public function store(Request $request){
         $this->validate($request, [
-            'name' => 'required|max:32',
-            'username' => 'required|alpha_dash|max:100|unique:users',
-            'email' => 'required|email|max:100|unique:users',
-            'password' => 'required|min:6',
+            // 'name' => 'required|max:32',
+            // 'username' => 'required|max:100|unique:users',
+            // 'email' => 'required|email|max:100|unique:users',
+            // // 'password' => 'required|min:6',
         ]);
-        $user  = new User();
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-
-        if(!empty($request->file)){
-            $request->file->move('uploads', $request->file->getClientOriginalName());
-            $user->avatar = $request->file->getClientOriginalName();
-        }
-        $user->save();
-        $role = Role::where('name', 'client')->first();
-        $user->roles()->attach($role->id);
-        return redirect::to('admin/clients')->withMessage('New client has been added');
+        $customer  = new Customer();
+        $customer->customer_name = $request->customer_name;
+        $customer->phone_no = $request->phone_no;
+        $customer->email = $request->email;
+        // $user->password = bcrypt($request->password);
+        $customer->save();
+        // $role = Role::where('name', 'client')->first();
+        // $user->roles()->attach($role->id);
+        return redirect::to('admin/clients')->withMessage('New Customer has been added');
     }
 
 
@@ -69,8 +65,8 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        return view('admin.clients.edit', compact('user'));
+        $customer = Customer::find($id);
+        return view('admin.clients.edit', compact('customer'));
     }
 
     /**
@@ -80,35 +76,16 @@ class ClientsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'username' => 'required',
+            'customer_name' => 'required',
+            'phone_no' => 'required',
             'email' => 'required',
         ]);
-        $user = User::find($id);
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->email = $request->email;
-        if(!empty($request->file)){
-            $request->file->move('uploads', $request->file->getClientOriginalName());
-            $user->avatar = $request->file->getClientOriginalName();
-        }
+        $customer = Customer::find($id);
+        $customer->customer_name = $request->customer_name;
+        $customer->phone_no = $request->phone_no;
+        $customer->email = $request->email;
 
-        $user->save();
-        if($request->role == 'admin'){
-            $role = Role::where('name', 'admin')->first();
-            $user->detachRoles($user->roles);
-            $user->roles()->attach($role->id);
-        }
-        if($request->role == 'client'){
-            $role = Role::where('name', 'client')->first();
-            $user->detachRoles($user->roles);
-            $user->roles()->attach($role->id);
-        }
-        if($request->role == 'staff'){
-            $role = Role::where('name', 'staff')->first();
-            $user->detachRoles($user->roles);
-            $user->roles()->attach($role->id);
-        }
+        $customer->save();
 
         return redirect::to('admin/clients')->withMessage('Record has been updated');
     }
@@ -118,17 +95,8 @@ class ClientsController extends Controller
      */
     public function destroy($id)
     {
-        $tickets = Tickets::where('user_id', $id)->get();
-        foreach ($tickets as $ticket){
-            $files = Files::where('ticket_id' , $ticket->id)->get();
-            foreach ($files as $file){
-                Storage::delete($file->name);
-            }
-            Replies::where('ticket_id', $ticket->id)->delete();
-            Files::where('ticket_id', $ticket->id)->delete();
-        }
-        Tickets::where('user_id', $id)->delete();
-        User::find($id)->delete();
+       Customer::where('customer_id', $id)->delete();
+        Customer::find($id)->delete();
         return 'success';
     }
 }

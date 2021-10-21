@@ -180,7 +180,7 @@
         <a  class="btn btn-default  setting" href="{{asset('/admin/clients')}}">
             <img src="{{asset('images/user-group.png')}}" alt="Icon Not available">
             <i class="fa fa-users"></i>
-            <span class="button-text">Clients</span>
+            <span class="button-text">Customers</span>
         </a>
 
     </div>

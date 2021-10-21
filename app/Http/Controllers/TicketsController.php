@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 
+
 if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
     // Ignores notices and reports all other kinds... and warnings
     error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
@@ -11,13 +12,17 @@ if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
 }
 
 use App\Notifications\NewTicket;
+use Illuminate\Support\Facades\DB;
 use App\Notifications\TicketReply;
 use App\Notifications\TicketStatus;
+use App\Controllers\UsersController;
 use App\Replies;
 use App\Settings;
 use App\Tickets;
 use App\Departments;
 use App\User;
+use App\Customer;
+use App\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -37,10 +42,11 @@ class TicketsController extends Controller
     }
 
     public function index(){
+        // dd("ticket");
         if(Auth::user()->hasRole('admin')){
             return redirect::to('admin/tickets');
         }else{
-            $tickets = Tickets::paginate(15);
+            $tickets = Tickets::paginate(10);
             $open = Tickets::where(['assigned_to' => Auth::id(), 'status'=> 'open'])->orWhere(['user_id'=> Auth::id(), 'status'=> 'open'])->count();
             $replied = Tickets::where(['assigned_to' => Auth::id(), 'status'=> 'replied'])->orWhere(['user_id'=> Auth::id(), 'status'=> 'replied'])->count();
             $closed = Tickets::where(['assigned_to' => Auth::id(), 'status'=> 'closed'])->orWhere(['user_id'=> Auth::id(), 'status'=> 'closed'])->count();
@@ -56,32 +62,40 @@ class TicketsController extends Controller
 
     public function create(){
         $departments = Departments::all();
-        return view('tickets.new_ticket', compact('departments'));
+        $staffs = Staff::all();
+        $customers = Customer::all();
+        return view('tickets.new_ticket', compact('departments', 'customers', 'staffs'));
+
+       
     }
 
     public function store(Request $request){
-        // $this->validate($request, [
-        //     'department_id'=>'required',
-        //     'customer_name' => 'requried',
-        //     'incident_number' => 'requried',
-        //     'provider_ticket_number' => 'requried|min:15|max:10000',
-        //     'fault_time' => 'requried|min:15|max:10000',
-        //     'outage_in_hours' => 'requried|min:15|max:10000',
-        //     'resolution_time' => 'requried|min:15|max:10000',
-        //     'circuit_id' => 'requried',
-        //     'description' => 'required|min:15|max:10000',
-        // ]);
+
+        
+        $customers = Customer::all();
+        // dd($customers);
+        $selected_customer_name = array();
+        
+        $index = 0;
+        foreach ($request -> customer_name as $value) {
+
+            $selected_customer_name[$index] = $customers[$index]-> customer_name;
+            // array_push($selected_customer_name, $customers[$value]-> customer_name);
+        $index++;
+        }
+
 
 
 
 
         $ticket = new Tickets();
-        $ticket->customer_name = $request->customer_name;
+        $ticket->customer_name = implode(",",$selected_customer_name);
         $ticket->incident_number = $request->incident_number;
+        $ticket->assigned_to = $request ->assigned_to;
         $ticket->provider_ticket_number = $request->provider_ticket_number;
         $ticket->fault_time = $request->fault_time;
-        $ticket->outage_in_hours = $request->outage_in_hours;
-        $ticket->resolution_time = $request->resolution_time;
+        // $ticket->outage_in_hours = $request->outage_in_hours;
+        // $ticket->resolution_time = $request->resolution_time;
         $ticket->circuit_id = $request->circuit_id;
         $ticket->department_id = $request->department_id;
         $ticket->user_id = Auth::id();
@@ -128,13 +142,14 @@ class TicketsController extends Controller
         
         $user = User::find(Auth::id());
         $departments = Departments::all();
-        if($user->hasRole('admin')){
+        if($user->hasRole('admin', )){
             $ticket = Tickets::find($id);
             $users = User::all();
             if(count($ticket)){
-                $files = Files::where('ticket_id', $ticket->id)->get();
-                return view('tickets.edit_ticket', compact('ticket', 'users', 'files', 'departments'));
+                return view('tickets.edit_ticket', compact('ticket', 'users','departments'));
             }else
+
+            // dd("me");
                 return redirect::to('tickets');
 
 
@@ -143,11 +158,15 @@ class TicketsController extends Controller
         }else{
             $ticket = Tickets::where(['assigned_to'=> Auth::id(), 'id' => $id])->orWhere(['user_id'=> Auth::id(), 'id' => $id])->first();
             if(count($ticket)){
-                $files = Files::where('ticket_id', $ticket->id)->get();
-                return view('tickets.edit_ticket', compact('ticket', 'files', 'departments'));
+
+                
+                return view('tickets.edit_ticket', compact('ticket',  'departments'));
             }else
+
+            // 
                 return redirect::to('tickets');
         }
+
 
         
         

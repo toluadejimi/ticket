@@ -31,17 +31,17 @@
 
                             <div class="form-group">
                                 <label class="control-label">Name*:</label>
-                                <input type="text" class="form-control" name="name" value="{{$user->name}}" required/>
+                                <input type="text" class="form-control" name="customer_name" value="{{$customers->customer_name}}" required/>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label">User Name*:</label>
-                                <input type="text" class="form-control" readonly name="username" value="{{$user->username}}" required/>
+                                <input type="text" class="form-control" readonly name="phone_no" value="{{$customers->phone_no}}" required/>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label">Email*:</label>
-                                <input type="email" class="form-control" name="email" value="{{$user->email}}" required/>
+                                <input type="email" class="form-control" name="email" value="{{$customers->email}}" required/>
                             </div>
 
                             <div class="form-group">
@@ -52,14 +52,14 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            {{--  <div class="form-group">
                                 <label class="control-label">Role*:</label>
                                 <select name="role" class="form-control">
                                     <option value="admin" @if($user->hasRole('admin'))selected @endif>Admin</option>
                                     <option value="staff" @if($user->hasRole('staff'))selected @endif>Staff</option>
                                     <option value="client"  @if($user->hasRole('client'))selected @endif>Client</option>
                                 </select>
-                            </div>
+                            </div>  --}}
 
                             <div class="submit-button">
                                 <button type="submit" class="btn btn-default">Update</button>

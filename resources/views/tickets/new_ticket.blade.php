@@ -2,6 +2,14 @@
 @section('title', 'New Ticket')
 @section('content')
 
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">   
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+
+    
+
+
+
     <section id="main-home">
         <div class="main-home">
             <div class="main-img-area app">
@@ -36,17 +44,27 @@
                             
 
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                  <label for="">Customer Name</label>
-                                  <input type="text" name="customer_name" class="form-control">
-                                </div>
-                                  <div class="form-group col-md-6">
-                                     <label for="">Circiut ID</label>
+                        
+                             <div class="form-group col-md-12">
+                                <label for="">Customer Name</label>
+                                <select id="multiple-checkboxes-filter" multiple="multiple" name="customer_name[]" class="form-control">
+                                    @foreach($customers as $customer)
+                                        <option value="{{$customer->id}}">{{$customer->customer_name}}</option>
+                                    @endforeach
+                                  </select> 
+
+                             </div> 
+
+                          <div class="form-row">
+                                <div class="form-group col-md-12">
+                                     <label for="">Circuit ID</label>
                                     <input type="text" name="circuit_id" class="form-control">
                                   </div>
-                              </div>
+                            
 
+                          </div>
+
+   
                               <div class="form-row">
                                 <div class="form-group col-md-6">
                                   <label for="">Service Type</label>
@@ -64,17 +82,29 @@
                               </div>
 
                               <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                   <label for="">Provider Ticket No</label>
-                                  <input type="number" name="provider_ticket_number" class="form-control">
+                                  <input type="text" name="provider_ticket_number" class="form-control">
                                 </div>
-                                  <div class="form-group col-md-6">
+                                  <div class="form-group col-md-4">
                                      <label for="">Fault Time (GMT)</label>
                                     <input type="datetime-local" name="fault_time" class="form-control">
                                   </div>
+                                
+                                <div class="form-group col-md-4">
+                                     <label for="">Assign to Staff</label>
+                                  <select name="assigned_to" class="form-control">
+                                    @foreach($staffs as $staff)
+                                        <option value="{{$staff->id}}">{{$staff->name}}</option>
+                                    @endforeach
+                                  </select> 
+                                  </div>
+
+
+
                               </div>
 
-                              <div class="form-row">
+                              {{--  <div class="form-row">
                                 <div class="form-group col-md-6">
                                   <label for="">Resolution Time (GMT)</label>
                                   <input type="datetime-local" name="resolution_time" class="form-control">
@@ -83,7 +113,7 @@
                                      <label for="">Outage in Hours (H)</label>
                                     <input type="text" name="outage_in_hours" class="form-control">
                                   </div>
-                              </div>
+                              </div>  --}}
 
 
                               <div class="form-group">
@@ -107,5 +137,41 @@
                 </div>
             </div>
         </div>
+
+
+
+
     </section>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>		
+<script>
+$(document).ready(function () {
+                $('#multiple-checkboxes').multiselect({
+                    includeSelectAllOption: true
+                });
+                $('#multiple-checkboxes-filter').multiselect({
+                    includeSelectAllOption: true,
+                    enableCaseInsensitiveFiltering: true
+                });
+            });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @stop
+
+

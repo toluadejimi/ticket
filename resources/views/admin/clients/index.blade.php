@@ -16,49 +16,38 @@
                             <div class="table-section">
                                 <div class="table-responsive">
                                     <table class="table table-lead user-table">
-                                        <h3 class="title clearfix">Clients <span>List</span>
+                                        <h3 class="title clearfix">Customer's <span>List</span>
                                             <a href="{{url('admin/clients/create')}}" class="pull-right">Add new</a>
                                         </h3>
                                         <thead>
                                         <tr>
                                             <th class="heading">Name</th>
                                             <th class="heading">Email</th>
-                                            <th class="heading">Avatar</th>
-                                            <th class="heading">Registered On</th>
+                                            <th class="heading">Phone No</th>
                                             <th class="heading">Action</th>
 
                                         </tr>
                                         </thead>
                                         <tbody>
 
-                                        @foreach($users as $user)
-                                            @if($user->hasRole('client'))
+                                        @foreach($customers as $customer)
                                                 <tr id="{{$user->id}}">
                                                     <td>
                                                         <a href="{{url('admin/clients')}}/{{$user->id}}/edit">
-                                                            {{$user->name}}
+                                                            {{$customer->customer_name}}
                                                         </a>
                                                     </td>
-                                                    <td>{{$user->email}}</td>
+                                                    <td>{{$customer->email}}</td>
+                                                    <td>{{$customer->phone_no}}</td>
                                                     <td>
-                                                        @if($user->avatar ==  null)
-                                                            <img src="{{asset('uploads')}}/avatar.png" alt="avatar" class="img-circle" style="height: 40px; width:40px">
-                                                        @else
-                                                            <img src="{{asset('uploads')}}/{{$user->avatar}}" alt="avatar" class="img-circle" style="height: 40px; width:40px">
-
-                                                        @endif
-                                                    </td>
-                                                    <td>{{$user->created_at}}</td>
-                                                    <td>
-                                                        <a href="{{url('admin/clients')}}/{{$user->id}}/edit" class="eye">
-                                                            <i class="fa fa-pencil"></i></a>
-                                                        <a href="#" class="eye delete-btn" data-id="{{$user->id}}">
+                                                        <a href="{{url('admin/clients')}}/{{$customer->id}}/edit" class="eye">
+                                                            <i class="fa fa-pencil"></i></a> 
+                                                        <a href="#" class="eye delete-btn" data-id="{{$customer->id}}">
                                                             <i class="fa fa-trash"></i>
                                                         </a>
                                                     </td>
 
                                                 </tr>
-                                            @endif
                                         @endforeach
 
                                         </tbody>
@@ -67,7 +56,7 @@
                             </div>
 
                             <div class="pagination_links clearfix">
-                                {{ $users->links() }}
+                                {{ $customers->links() }}
                             </div>
 
 

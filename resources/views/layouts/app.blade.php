@@ -18,7 +18,12 @@
     <link rel="stylesheet" href="{{asset('plugin/datatable/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugin/slick/slick.css')}}">
     <link rel="stylesheet" href="{{asset('css/app.min.css')}}">
-
+    <link rel="stylesheet" href="{{asset('dist/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('dist/js/select2.min.js')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">		
+  
+   
     <link rel="icon" href="{{asset('images/fav.png')}}" type="image/x-icon"/>
 
     <!-- Scripts -->
@@ -181,6 +186,24 @@
 <script src="{{asset('plugin/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('plugin/slick/slick.min.js')}}"></script>
 <script src="{{asset('js/app.js')}}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>		
+
+<script>
+$(document).ready(function () {
+                $('#multiple-checkboxes').multiselect({
+                    includeSelectAllOption: true
+                });
+                $('#multiple-checkboxes-filter').multiselect({
+                    includeSelectAllOption: true,
+                    enableCaseInsensitiveFiltering: true
+                });
+            });
+</script>        
+
+
+
 
 <script>
     $('.notification_dropdown li a').on('click', function () {

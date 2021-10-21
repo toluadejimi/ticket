@@ -14,6 +14,7 @@ use App\User;
 use App\Tickets;
 use App\Files;
 use App\Replies;
+use App\Staff;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -48,21 +49,32 @@ class StaffController extends Controller
             'username' => 'required|alpha_dash|max:100|unique:users',
             'email' => 'required|email|max:100|unique:users',
             'password' => 'required|min:6',
-            'designation' => 'required',
+            'phone_no' => 'required',
         ]);
         $user  = new User();
         $user->name = $request->name;
         $user->username = $request->username;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
-        $user->designation = $request->designation;
+        $user->phone_no = $request->phone_no;
         $user->department_id = $request->department;
+
+
+
+        $staffs = new Staff();
+        $staffs->name = $request->name;
+        $staffs->phone_no = $request->phone_no;
+        $staffs->email=$request->email;
+       
+
 
         if(!empty($request->file)){
             $request->file->move('uploads', $request->file->getClientOriginalName());
             $user->avatar = $request->file->getClientOriginalName();
         }
         $user->save();
+        $staffs->save();
+       
         $role = Role::where('name', 'staff')->first();
         $user->roles()->attach($role->id);
         return redirect::to('admin/staff')->withMessage('New staff member has been added');

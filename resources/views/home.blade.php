@@ -7,7 +7,7 @@
         <div class="follow-ticket">
             <div class="follow-text">
                 <div class="container">
-                    <h1>C 0 DE LI ST . CC</h1><br>
+                    <h1></h1></h1><br>
                     <a href="{{url('/new/ticket')}}" class="btn btn-default">Create New Ticket</a>
                 </div>
             </div>
