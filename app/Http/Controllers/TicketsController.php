@@ -126,11 +126,12 @@ class TicketsController extends Controller
         
         $user = User::find(Auth::id());
         $departments = Departments::all();
+        $staffs = Staff::all();
         if($user->hasRole('admin', )){
             $ticket = Tickets::find($id);
             $users = User::all();
             if(count($ticket)){
-                return view('tickets.edit_ticket', compact('ticket', 'users','departments'));
+                return view('tickets.edit_ticket', compact('ticket', 'users','departments', 'staffs'));
             }else
 
             
@@ -144,7 +145,7 @@ class TicketsController extends Controller
             $ticket = Tickets::where([ 'id' => $id])->first();
             if(count($ticket)){
 
-                return view('tickets.edit_ticket', compact('ticket',  'departments'));
+                return view('tickets.edit_ticket', compact('ticket',  'departments','staffs'));
             }else
 
             

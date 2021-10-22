@@ -70,7 +70,7 @@
                                   <label for="">Service Type</label>
                                   <select name="department_id" class="form-control">
                                     @foreach($departments as $department)
-                                        <option value="{{$department->id}}">{{$department->name}}</option>
+                                        <option value="{{$department->name}}">{{$department->name}}</option>
                                     @endforeach
 
                                 </select>
