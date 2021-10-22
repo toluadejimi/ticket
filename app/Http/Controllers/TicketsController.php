@@ -71,25 +71,9 @@ class TicketsController extends Controller
 
     public function store(Request $request){
 
-        
-        $customers = Customer::all();
-        // dd($customers);
-        $selected_customer_name = array();
-        
-        $index = 0;
-        foreach ($request -> customer_name as $value) {
-
-            $selected_customer_name[$index] = $customers[$index]-> customer_name;
-            // array_push($selected_customer_name, $customers[$value]-> customer_name);
-        $index++;
-        }
-
-
-
-
 
         $ticket = new Tickets();
-        $ticket->customer_name = implode(",",$selected_customer_name);
+        $ticket->customer_name = implode(",", $request->customer_name);
         $ticket->incident_number = $request->incident_number;
         $ticket->assigned_to = $request ->assigned_to;
         $ticket->provider_ticket_number = $request->provider_ticket_number;
@@ -125,14 +109,14 @@ class TicketsController extends Controller
             }
         }
         $settings = Settings::all()->first();
-        if($settings->ticket_email == 'yes'){
-            $department = Departments::find($request->department_id);
-            Mail::send('mails.thanks',['ticket'=>$request, 'department' => $department], function ($message) use ($settings){
-                $message->from('no-reply@gmail.com', 'Ticket Plus');
-                $message->subject('New Ticket Created');
-                $message->to($settings->admin_email);
-            });
-        }
+        // if($settings->ticket_email == 'yes'){
+        //     $department = Departments::find($request->department_id);
+        //     Mail::send('mails.thanks',['ticket'=>$request, 'department' => $department], function ($message) use ($settings){
+        //         $message->from('no-reply@gmail.com', 'Ticket Plus');
+        //         $message->subject('New Ticket Created');
+        //         $message->to($settings->admin_email);
+        //     });
+        // }
         return redirect::to('tickets');
     }
 
@@ -149,22 +133,22 @@ class TicketsController extends Controller
                 return view('tickets.edit_ticket', compact('ticket', 'users','departments'));
             }else
 
-            // dd("me");
+            
                 return redirect::to('tickets');
 
 
        
 
         }else{
-            $ticket = Tickets::where(['assigned_to'=> Auth::id(), 'id' => $id])->orWhere(['user_id'=> Auth::id(), 'id' => $id])->first();
+            
+            $ticket = Tickets::where([ 'id' => $id])->first();
             if(count($ticket)){
 
-                
                 return view('tickets.edit_ticket', compact('ticket',  'departments'));
             }else
 
-            // 
-                return redirect::to('tickets');
+            
+                 return redirect::to('tickets');
         }
 
 
