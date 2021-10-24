@@ -50,11 +50,14 @@
                             <div class="jumbotron">
                                 <div class="row">
                                     <div class="col-sm-6 col-md-4">
-                                        <h4><b>Customer Name</h4></b>
-                                        <h5>{{$ticket->customer_name}}</h5>
-                                    </br>
-                                        <h4><b>Circuit ID</h4></b>
-                                        <h6>{{$ticket->circuit_id}}</h6>
+                                            <h4><b>Customer Name</h4></b>
+                                            <h5>{{$ticket->customer_name}}</h5>
+                                        </br>
+                                            <h4><b>Circuit ID</h4></b>
+                                            <h6>{{$ticket->circuit_id}}</h6>
+                                        </br>
+                                            <h4><b>Assigned To</h4></b>
+                                            <h6>{{$ticket->assigned_to}}</h6>
                                     </div>
 
                                     <div class="col-sm-6 col-md-4">
@@ -63,41 +66,52 @@
                                         </br>
                                             <h4><b>Incedent No</h4></b>
                                             <h6>{{$ticket->incident_number}}</h6>
+                                        
+                                        </br>
+                                        <h4><b>Created At</h4></b>
+                                        <h6>{{$ticket->created_at}}</h6>
                                         </div>
+                                        
 
                                     <div class="col-sm-6 col-md-4">
                                         <h4><b>Provider Ticket No</h4></b>
                                         <h5>{{$ticket->provider_ticket_number}}</h5>
                                     </br>
                                         <h4><b>Fault Time</h4></b>
-                                        <h6>{{$ticket->fault_time}}</h6>
+                                        <div id="f_time" <h6>{{$ticket->fault_time}}</h6> </div>
+                                    </br>
+                                         <h4><b><label for="">Ticket status</label> <span class="ticket-status {{$ticket->status}}">{{$ticket->status}}</span></h4></b>
+                                            <select name="status"  value={{$ticket->status}} class="form-control">
+                                                    <option>open</option>
+                                                    <option>closed</option>
+                                        </select> 
+
+
+
+
+
                                     </div>
                                 </div>
                             
                             
                             </div>   
-                                     
-
-
-                            <div class="jumbotron">
-                                    <h4><b>Reasons For Outage</h4></b>
-                                    <h5>{{$ticket->description}}</h5>
-                            </div>
+                                    
 
 
                             <div class="jumbotron">
                                 <div class="row">
                                     <div class="form-group col-md-4">
                                         <label class="control-label">Resolution Time (GMT)</label>
-                                        <input type="text" class="form-control" name="resolution_time" value="{{$ticket->resolution_time}}" required/>
+                                        <input type="datetime-local" class="form-control" name="resolution_time" value="{{$ticket->resolution_time}}" required/>
                                     </div>
                                
                                         <div class="form-group col-md-4">
-                                            <label class="control-label">Outage in Hours (H)</label>
-                                            <input type="text" class="form-control" name="outage_in_hours" value="{{$ticket->outage_in_hours}}" required/>
+                                            <label id="outage_in_hours" class="control-label">Outage in Hours (H)</label> 
+
+                                            <input type="text" class="form-control" name="outage_in_hours" value="{{$outage_in_hours}}">
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="">Reassign to Staff</label>
+                                            <label for="">Reassign to Staff</label> 
                                             <select name="assigned_to" class="form-control">
                                             @foreach($staffs as $staff)
                                                 <option value="{{$staff->name}}">{{$staff->name}}</option>
@@ -108,7 +122,15 @@
 
                                 </div> 
                             
-                            </div>   
+                            </div>
+                        <div class="jumbotron">
+                             <div class="form-group">
+                                <label class="control-label">Reasons for Outage</label>
+                                <textarea class="form-control" name="description">{{ old('description')}} {{ $ticket->description }} 
+                                </textarea>
+                                <span class="help-block" id="message"></span>
+                            </div>
+                         </div>
                                      
 {{--  
                                     <div class="form-group">
@@ -139,7 +161,71 @@
 
                             {{Form::close()}}
 
-                        </div>
+
+                            
+
+                            <div class="jumbotron">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-6">
+                                            <div class = "container">
+                                                    <label> Reasons for Outage </label>
+                                                    @foreach ($updated_tickets as $object)
+                                                    <h6>{{$object->description}}</h6>
+                                                    @endforeach
+                                            </div>
+                                        </div>
+
+                                    
+
+                                        <div class="col-sm-6 col-md-3">
+                                            
+                                                <label> Updated By </label>
+                                                    @foreach ($updated_tickets as $object)
+                                                    <h6>{{$object->updated_by}}</h6>
+                                                    @endforeach
+                                               
+                                        </div>
+
+                                        
+                                        <div class="col-sm-6 col-md-3">
+                                          <label> Time Updated </label>
+                                            @foreach ($updated_tickets as $object)
+                                            <h6>{{$object->updated_at}}</h6>
+                                            @endforeach
+                                        </div>
+                                         
+                                    </div>
+
+
+                            </div>
+
+                        {{--  </div>
+                            <div class="table-section">
+                                <div class="table-responsive">
+                                    <table class="table table-lead user-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="heading">Reasons for Outage</th>
+                                                <th class="heading">Updated By</th>
+                                                <th class="heading">Time Updated</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach ($updated_tickets as $object)
+                                                    <tr>
+                                                        <td>{{$object->description}}</td>
+                                                        <td>{{$object->updated_by}}</td>
+                                                        <td>{{$object->updated_at}}</td>
+                                                    </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            
+                            </div>
+
+                        </div>  --}}
                         {{-- <div class="col-md-3 col-sm-12">
                             <div class="ticket-info">
                                 <div class="title-sidebar">
@@ -221,5 +307,17 @@
             </div>
         </div>
     </section>
+ <script>
+                                                function myFunction() {
+                                                    var r_time = document.getElementById("r_time").value;
+                                                    var f_time = document.getElementById("f_time").value;
+                                                    var outage_in_hours = r_time - f_time;
+                                                    
+                                                    document.getElementById("outage_in_hours").innerHTML = outage_in_hours;
+                                                    
+                                                }
+                                            </script>
+   
 @stop
 
+  

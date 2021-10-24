@@ -23,6 +23,7 @@ use App\Departments;
 use App\User;
 use App\Customer;
 use App\Staff;
+use App\UpdatedTicket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -88,6 +89,12 @@ class TicketsController extends Controller
         $ticket->status = 'open';
         $ticket->save();
 
+        // $updated_ticket = new UpdatedTicket();
+        // $updated_ticket->description = $request->description;
+        // $updated_ticket->ticket_id = $id;
+        // $updated_ticket -> updated_by = Auth::user()->name;
+        // $updated_ticket->save();
+
         if (Input::hasFile('file')) {
             $files = new Files();
             $files->name = $request->file->getClientOriginalName();
@@ -123,15 +130,19 @@ class TicketsController extends Controller
 
     public function editTickets($id){
 
+       
+
         
         $user = User::find(Auth::id());
         $departments = Departments::all();
+        $updated_tickets = UpdatedTicket::all();
+        // dd($updated_tickets);
         $staffs = Staff::all();
         if($user->hasRole('admin', )){
             $ticket = Tickets::find($id);
             $users = User::all();
             if(count($ticket)){
-                return view('tickets.edit_ticket', compact('ticket', 'users','departments', 'staffs'));
+                return view('tickets.edit_ticket', compact('ticket', 'users','departments', 'staffs', 'updated_tickets'));
             }else
 
             
@@ -145,7 +156,7 @@ class TicketsController extends Controller
             $ticket = Tickets::where([ 'id' => $id])->first();
             if(count($ticket)){
 
-                return view('tickets.edit_ticket', compact('ticket',  'departments','staffs'));
+                return view('tickets.edit_ticket', compact('ticket',  'departments','staffs','updated_tickets'));
             }else
 
             
@@ -188,26 +199,39 @@ class TicketsController extends Controller
 
     public function updateTickets(Request $request, $id){
 
+        
+
         // $this->validate($request, [
         //     'department' => 'required',
         //     'subject' => 'required|max:300',
         //     'description' => 'required|max:10000'
         // ]);
+        $updated_ticket = new UpdatedTicket();
+        $updated_ticket->description = $request->description;
+        $updated_ticket->ticket_id = $id;
+        $updated_ticket -> updated_by = Auth::user()->name;
+        $updated_ticket->save();
 
-        $ticket = new Tickets();
-        $ticket->customer_name = $request->customer_name;
-        $ticket->incident_number = $request->incident_number;
-        $ticket->provider_ticket_number = $request->provider_ticket_number;
-        $ticket->fault_time = $request->fault_time;
-        $ticket->outage_in_hours = $request->outage_in_hours;
-        $ticket->resolution_time = $request->resolution_time;
-        $ticket->circuit_id = $request->circuit_id;
-        $ticket->department_id = $request->department_id;
-        $ticket->user_id = Auth::id();
-        $ticket->token_no = rand(1000, 10000);
-        $ticket->description = $request->description;
-        $ticket->status = 'open';
-        $ticket->save();
+
+
+        DB::table('tickets')
+            ->where('id', $id)
+            ->update(['outage_in_hours' => $request->outage_in_hours,
+                      'resolution_time' => $request->resolution_time, 
+                      'description' => $request->description, 
+                      'status' => $request->status, 
+                     ]);
+
+
+
+
+        // $ticket = new Tickets();
+        // $ticket->outage_in_hours = $request->outage_in_hours;
+        // $ticket->resolution_time = $request->resolution_time;
+        // $ticket->description = $request->description;
+        // $ticket->status = $request->status;
+
+        // $ticket->save();
         return redirect()->back()->withMessage('ticket has been updated successfully');
     }
 

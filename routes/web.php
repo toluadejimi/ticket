@@ -93,3 +93,5 @@ Route::get('/markAsRead', function (){
 Route::any('{catchall}', function() {
     return redirect('/');
 })->where('catchall', '.*');
+
+

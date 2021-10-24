@@ -118,7 +118,7 @@
 
                               <div class="form-group">
                                 <label class="control-label">Reasons for Outage</label>
-                                <textarea class="form-control" name="description" required>{{ old('description')}}</textarea>
+                                <textarea class="form-control"  name="description" required>{{ old('description')}}</textarea>
                                 <span class="help-block" id="message"></span>
                             </div>
 
