@@ -4,11 +4,12 @@
 @section('content')
 
 {{-- start --}}
+
  <section id="category-one">
         <div class="category-one">
              {{-- <form action="{{url('/report')}}" method="post" > --}}
-                   {{Form::open(['url'=>'/report', 'class'=>'defaultForm','method' =>'post',  'files' => true])}}
-
+                   {{Form::open(['url'=>'/report', 'class'=>'defaultForm','method' =>'get',  'files' => true])}}
+                    
 
             <div class="container contact">
               
@@ -16,51 +17,67 @@
                  
                
                              <div class="form-row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">Start Date</label>
-                                                <input type="date" class="form-control" name="start_date" value="" required/>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="form-group col-md-4">
-                                                    <label class="control-label">End Date</label>
-                                                    <input type="date" class="form-control" name="end_date" value="" required/>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group col-md-4">
+                                  <div class="form-group col-md-4">
+                                      
                                                 <label class="control-label">Assignee</label>
                                                                     <select name="user_name" class="form-control">
+                                                                         <option value=""></option>
                                                                             @foreach($users as $user)
                                                                                 <option value="{{$user->name}}">{{$user->name }}</option>
                                                                             @endforeach
 
                                                                     </select>
                                             </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label">Start Date</label>
+                                                <input type="date" class="form-control" name="start_date" value="" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="form-group col-md-4">
+                                                    <label class="control-label">End Date</label>
+                                                    <input type="date" class="form-control" name="end_date" value="" />
+                                                </div>
+                                            </div>
+
+                                           
 
                                             
-                                        </div>
-                                       
-
-                                                     
+                                        </div>                      
 
                             </div> 
-                             <div class="row">
-                                  <div class="form-row">
-                                      <div class="form-group col-md-4">
+                                          <div class="row">
+                                                              <div class="form-row">
 
-                                                    <div class="form-check">
-                                                            <input class="form-check-input"  name="isOpen" type="checkbox"  id="defaultCheck1">
-                                                            <label class="form-check-label" for="defaultCheck1">
-                                                                Open
-                                                            </label>
-                                                        </div>
-                                      </div>
+                                                             <div class="form-group col-md-4">
+                                                                  <label class="control-label">Customer</label>
+                                                                    <select name="customer_name" class="form-control">
+                                                                         <option value=""></option>
+                                                                            @foreach($customers as $customer)
+                                                                                <option value="{{$customer->customer_name}}">{{$customer->customer_name }}</option>
+                                                                            @endforeach
+
+                                                                    </select>
+                                                                 </div>
+
+
+
+                                    
+                                                          <div class="form-group col-md-4">
+                                                                  <label class="control-label">Status</label>
+                                                                    <select name="status" class="form-control">
+                                                    
+                                                                            <option value="open">open</option>
+                                                                              <option value="closed">closed</option>
+
+                                                                    </select>
+                                                                 </div>
+
                                       
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-4"   style="margin-top: 25px;">
                                             <button type="submit" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true">
                                                 </i>
-                                            </button> <label class="form-check-label" for="defaultCheck1">          Apply</label>
+                                            </button> <label class="form-check-label" for="defaultCheck1">   Apply</label>
                                             </div>
                                   </div>
                                   </div>
@@ -102,7 +119,7 @@
                                         <tbody>
 
                                         @foreach($tickets as $ticket)
-                                            @if($ticket->user_id == Auth::id() || $ticket->assigned_to == Auth::id())
+                                            {{-- @if($ticket->user_id == Auth::id() || $ticket->assigned_to == Auth::id()) --}}
                                                 <tr id="{{$ticket->id}}">
                                                     <td>{{$ticket->customer_name}}</td>
                                                     <td>{{$ticket->circuit_id}}</td>
@@ -127,28 +144,18 @@
 
                                                     <td>{{$ticket->created_at->format('d-m-Y')}}</td>
                                                     <td>
-                                                        @if(Auth::user()->hasRole('client'))
-                                                            @if($settings->client_can_edit == 'yes')
+                                                
+                                                 @if($settings->staff_can_edit == 'yes')
                                                                 <a href="{{url('edit/tickets')}}/{{$ticket->id}}" class="eye" data-id="{{$ticket->id}}">
                                                                     <i class="fa fa-pencil"></i>
                                                                 </a>
                                                             @endif
-                                                        @endif
-                                                        @if(Auth::user()->hasRole('staff'))
-                                                            @if($settings->staff_can_edit == 'yes')
-                                                                <a href="{{url('edit/tickets')}}/{{$ticket->id}}" class="eye" data-id="{{$ticket->id}}">
-                                                                    <i class="fa fa-pencil"></i>
-                                                                </a>
-                                                            @endif
-                                                        @endif
-
-
                                                         <a href="javascript:;" class="eye delete-btn" data-id="{{$ticket->id}}">
                                                             <i class="fa fa-trash"></i>
                                                         </a>
                                                     </td>
                                                 </tr>
-                                            @endif
+                                            {{-- @endif --}}
                                         @endforeach
 
                                         </tbody>

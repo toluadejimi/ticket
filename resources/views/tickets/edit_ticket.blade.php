@@ -79,7 +79,7 @@
                                     <div class="form-group">
                                         <div class="form-group col-md-4">
                                             <label class="control-label">Fault Time (GMT)</label>
-                                            <input type="text" class="form-control" name="fault_time" value="{{$ticket->fault_time}}" required/>
+                                            <input type="text" class="form-control"  id ="fault_time" name="fault_time" value="{{$ticket->fault_time}}" required/>
                                         </div>
                                     </div>                              
                             </div>
@@ -87,13 +87,13 @@
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Resolution Time (GMT)</label>
-                                    <input type="text" class="form-control" name="resolution_time" value="{{$ticket->resolution_time}}" required/>
+                                    <input type="datetime-local" class="form-control" id ="resolution_time" name="resolution_time" value="{{$ticket->resolution_time}}" required/>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="form-group col-md-4">
                                         <label class="control-label">Outage in Hours (H)</label>
-                                        <input type="text" class="form-control" name="outage_in_hours" value="{{$ticket->outage_in_hours}}" required/>
+                                        <input type="text" class="form-control" id ="outage_in_hours" name="outage_in_hours" value="{{$ticket->outage_in_hours}}" required/>
                                     </div>
                                 </div>
 
@@ -103,7 +103,7 @@
                                             <!-- Button trigger modal -->
 
 
-<div class="submit-button" data-toggle="modal" data-target="#exampleModal" data-target="#exampleModal">
+<div class="submit-button" data-toggle="modal" data-target="#exampleModal" data-target="#exampleModal"  style=" margin-top:12px;">
  <button type="button" class="btn btn-default">Assign Ticket</button>
 </div>
 {{-- <button type="button" class="submit-button"  data-target="#exampleModal">
@@ -135,8 +135,8 @@
 
 
       </div>
-      <div class="modal-footer">
-        <div class="submit-button">
+      <div class="modal-footer" >
+        <div class="submit-button"  >
             <button type="button" class="btn btn-default">Assign</button>
              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
            </div>
@@ -273,6 +273,48 @@
             </div>
         </div>
     </section>
+
+
+
+
+    <script>
+  
+    function startTimer(display) {
+      setInterval(function () {
+        console.log("running");
+         var fault_time =  document.getElementById("fault_time").value;
+       var resolution_time =  document.getElementById("resolution_time").value;
+           console.log(`mmmm ${resolution_time}`);
+        var startTime = new Date(fault_time);
+          if(resolution_time.length > 0){
+        endTime = new Date(resolution_time);
+        
+
+    console.log(`miracele ${endTime}`);
+    var diff = endTime - startTime; 
+    var hours   = Math.floor(diff / 3.6e6);
+    var minutes = Math.floor((diff % 3.6e6) / 6e4);
+    var seconds = Math.floor((diff % 6e4) / 1000);
+    console.log(diff)
+      display.value = hours + ":" +minutes + ":" + seconds;
+    
+    
+    }
+           
+      },1000)
+       
+    }
+
+    window.onload = function () {
+ 
+ var outage_in_hours = document.getElementById('outage_in_hours');
+        startTimer(outage_in_hours);  
+  
+
+    };
+
+
+ </script>
 @stop
 
 

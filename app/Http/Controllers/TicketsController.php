@@ -53,7 +53,7 @@ class TicketsController extends Controller
             $pending = Tickets::where(['assigned_to' => Auth::id(), 'status'=> 'pending'])->orWhere(['user_id'=> Auth::id(), 'status'=> 'pending'])->count();
             $departments = Departments::all();
             $tickets_depart = Tickets::where('assigned_to', Auth::id())->orWhere('user_id', Auth::id())->get();
-
+dd($tickets);
             return view('tickets.index', compact('tickets', 'open','replied', 'closed', 'pending', 'departments', 'tickets_depart'));
 
         }
