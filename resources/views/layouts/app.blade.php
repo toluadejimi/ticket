@@ -21,8 +21,7 @@
     <link rel="stylesheet" href="{{asset('dist/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('dist/js/select2.min.js')}}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">   
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">		
-  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">  
    
     <link rel="icon" href="{{asset('images/fav.png')}}" type="image/x-icon"/>
 

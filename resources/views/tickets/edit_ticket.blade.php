@@ -37,147 +37,121 @@
                                     <strong>Alert!</strong> {{Session::get('message')}}
                                 </div>
                             @endif
+                            
+                        
 
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Customer Name</label>
-                                    <input type="text" class="form-control" name="customer_name" value="{{$ticket->customer_name}}" required/>
-                                </div>
 
-                                <div class="form-group">
-                                    <div class="form-group col-md-4">
-                                        <label class="control-label">Circuit ID</label>
-                                        <input type="text" class="form-control" name="circuit_id" value="{{$ticket->circuit_id}}" required/>
+
+
+
+
+
+
+                            <div class="jumbotron">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-4">
+                                            <h4><b>Customer Name</h4></b>
+                                            <h5>{{$ticket->customer_name}}</h5>
+                                        </br>
+                                            <h4><b>Circuit ID</h4></b>
+                                            <h6>{{$ticket->circuit_id}}</h6>
+                                        </br>
+                                            <h4><b>Assigned To</h4></b>
+                                            <h6>{{$ticket->assigned_to}}</h6>
                                     </div>
-                                </div>
-
-                                <div class="form-group col-md-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Service Type</label>
-                                        <select name="department" required class="form-control">
-                                            @foreach($departments as $department)
-                                                <option value="{{$department->id}}" {{($department->id) == $ticket->department_id ? 'selected' : ''}}>{{$department->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>                              
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Incident No</label>
-                                    <input type="text" class="form-control" name="incident_number" value="{{$ticket->incident_number}}" required/>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="form-group col-md-4">
-                                        <label class="control-label">Provider Ticket No</label>
-                                        <input type="text" class="form-control" name="provider_ticket_number" value="{{$ticket->provider_ticket_number}}" required/>
-                                    </div>
-                                </div>
 
                                     <div class="form-group">
                                         <div class="form-group col-md-4">
                                             <label class="control-label">Fault Time (GMT)</label>
                                             <input type="text" class="form-control"  id ="fault_time" name="fault_time" value="{{$ticket->fault_time}}" required/>
+                                    <div class="col-sm-6 col-md-4">
+                                            <h4><b>Service Type</h4></b>
+                                            <h5>{{$ticket->department_id}}</h5>
+                                        </br>
+                                            <h4><b>Incedent No</h4></b>
+                                            <h6>{{$ticket->incident_number}}</h6>
+                                        
+                                        </br>
+                                        <h4><b>Created At</h4></b>
+                                        <h6>{{$ticket->created_at}}</h6>
                                         </div>
-                                    </div>                              
-                            </div>
+                                        
+
+                                    <div class="col-sm-6 col-md-4">
+                                        <h4><b>Provider Ticket No</h4></b>
+                                        <h5>{{$ticket->provider_ticket_number}}</h5>
+                                    </br>
+                                        <h4><b>Fault Time</h4></b>
+                                        <div id="f_time" <h6>{{$ticket->fault_time}}</h6> </div>
+                                    </br>
+                                         <h4><b><label for="">Ticket status</label> <span class="ticket-status {{$ticket->status}}">{{$ticket->status}}</span></h4></b>
+                                            <select name="status"  value={{$ticket->status}} class="form-control">
+                                                    <option>open</option>
+                                                    <option>closed</option>
+                                        </select> 
+
 
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Resolution Time (GMT)</label>
                                     <input type="datetime-local" class="form-control" id ="resolution_time" name="resolution_time" value="{{$ticket->resolution_time}}" required/>
                                 </div>
+                            
+                            
+                            </div>   
+                                    
 
-                                <div class="form-group">
+
+                            <div class="jumbotron">
+                                <div class="row">
                                     <div class="form-group col-md-4">
-                                        <label class="control-label">Outage in Hours (H)</label>
+                                        <label class="control-label">Resolution Time in Hours (H)</label>
                                         <input type="text" class="form-control" id ="outage_in_hours" name="outage_in_hours" value="{{$ticket->outage_in_hours}}" required/>
                                     </div>
-                                </div>
+                               
+                                        <div class="form-group col-md-4">
+                                            <label id="outage_in_hours" class="control-label">Outage in Hours (H)</label> 
 
+                                            <input type="text" class="form-control" name="outage_in_hours" value="{{$outage_in_hours}}">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="">Reassign to Staff</label> 
+                                            <select name="assigned_to" class="form-control">
+                                            @foreach($staffs as $staff)
+                                                <option value="{{$staff->name}}">{{$staff->name}}</option>
+                                            @endforeach
+                                            </select>
+                                        </div> 
+
+
+                                </div> 
+                            
+                            </div>
+                        <div class="jumbotron">
+                             <div class="form-group">
+                                <label class="control-label">Reasons for Outage</label>
+                                <textarea class="form-control" name="description">{{ old('description')}} {{ $ticket->description }} 
+                                </textarea>
+                                <span class="help-block" id="message"></span>
+                            </div>
+                         </div>
+                                     
+{{--  
                                     <div class="form-group">
                                         <div class="form-group col-md-4">
                                             @role('admin')
-                                            <!-- Button trigger modal -->
-
-
-<div class="submit-button" data-toggle="modal" data-target="#exampleModal" data-target="#exampleModal"  style=" margin-top:12px;">
- <button type="button" class="btn btn-default">Assign Ticket</button>
-</div>
-{{-- <button type="button" class="submit-button"  data-target="#exampleModal">
-  Launch demo modal
-</button> --}}
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Assign Ticket  - {{ $ticket->customer_name }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        
-                <div class="form-group col-md-4">
-                    <div class="form-group">
-                        <label class="control-label">Service Type</label>
-                        <select name="department" required class="form-control">
-                            @foreach($users as $user)
-                                <option value="{{$user->id}}" {{($user->id) == $ticket->user_id ? 'selected' : ''}}>{{$user->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>                              
-                </div>
-
-
-      </div>
-      <div class="modal-footer" >
-        <div class="submit-button"  >
-            <button type="button" class="btn btn-default">Assign</button>
-             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-           </div>
-      </div>
-    </div>
-  </div>
-</div>
+                                           
                                            
                                             @endrole
                                         </div>
-                                    </div>                              
-                            </div>
+                                    </div>                                --}}
+                         
 
                                
 
-                
-                               
-                            </div>
+            
 
-                            {{-- <div class="form-row">
-                                <div class="form-group col-md-6">                             
-                                    <div class="form-group col-md-6">
-                                        <label class="control-label">Provider Ticket No</label>
-                                        <input type="text" class="form-control" name="subject" value="{{$ticket->provider_ticket_number}}" required/>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="form-group col-md-6">
-                                        <label class="control-label">Fault Time (GMT)</label>
-                                        <input type="text" class="form-control" name="subject" value="{{$ticket->fault_time}}" required/>
-                                    </div>
-                                </div>
-                               
-                            </div> --}}
-
-                            <div class="form-group">
-                                <label class="control-label">Reasons For Outage</label>
-                                <textarea class="form-control" name="description"  required>{{$ticket->description}}</textarea>
-                                <span class="help-block" id="message"></span>
-                            </div>
+                           
 
                            
 
@@ -191,7 +165,71 @@
 
                             {{Form::close()}}
 
-                        </div>
+
+                            
+
+                            <div class="jumbotron">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-6">
+                                            <div class = "container">
+                                                    <label> Reasons for Outage </label>
+                                                    @foreach ($updated_tickets as $object)
+                                                    <h6>{{$object->description}}</h6>
+                                                    @endforeach
+                                            </div>
+                                        </div>
+
+                                    
+
+                                        <div class="col-sm-6 col-md-3">
+                                            
+                                                <label> Updated By </label>
+                                                    @foreach ($updated_tickets as $object)
+                                                    <h6>{{$object->updated_by}}</h6>
+                                                    @endforeach
+                                               
+                                        </div>
+
+                                        
+                                        <div class="col-sm-6 col-md-3">
+                                          <label> Time Updated </label>
+                                            @foreach ($updated_tickets as $object)
+                                            <h6>{{$object->updated_at}}</h6>
+                                            @endforeach
+                                        </div>
+                                         
+                                    </div>
+
+
+                            </div>
+
+                        {{--  </div>
+                            <div class="table-section">
+                                <div class="table-responsive">
+                                    <table class="table table-lead user-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="heading">Reasons for Outage</th>
+                                                <th class="heading">Updated By</th>
+                                                <th class="heading">Time Updated</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach ($updated_tickets as $object)
+                                                    <tr>
+                                                        <td>{{$object->description}}</td>
+                                                        <td>{{$object->updated_by}}</td>
+                                                        <td>{{$object->updated_at}}</td>
+                                                    </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            
+                            </div>
+
+                        </div>  --}}
                         {{-- <div class="col-md-3 col-sm-12">
                             <div class="ticket-info">
                                 <div class="title-sidebar">
@@ -273,6 +311,7 @@
             </div>
         </div>
     </section>
+<<<<<<< HEAD
 
 
 
@@ -315,6 +354,19 @@
 
 
  </script>
+=======
+ <script>
+                                                function myFunction() {
+                                                    var r_time = document.getElementById("r_time").value;
+                                                    var f_time = document.getElementById("f_time").value;
+                                                    var outage_in_hours = r_time - f_time;
+                                                    
+                                                    document.getElementById("outage_in_hours").innerHTML = outage_in_hours;
+                                                    
+                                                }
+                                            </script>
+   
+>>>>>>> 587677f4db067b776e67d68c64efc6a07fc6444f
 @stop
 
-
+  

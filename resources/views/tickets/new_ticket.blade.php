@@ -70,7 +70,7 @@
                                   <label for="">Service Type</label>
                                   <select name="department_id" class="form-control">
                                     @foreach($departments as $department)
-                                        <option value="{{$department->id}}">{{$department->name}}</option>
+                                        <option value="{{$department->name}}">{{$department->name}}</option>
                                     @endforeach
 
                                 </select>
@@ -118,7 +118,7 @@
 
                               <div class="form-group">
                                 <label class="control-label">Reasons for Outage</label>
-                                <textarea class="form-control" name="description" required>{{ old('description')}}</textarea>
+                                <textarea class="form-control"  name="description" required>{{ old('description')}}</textarea>
                                 <span class="help-block" id="message"></span>
                             </div>
 
